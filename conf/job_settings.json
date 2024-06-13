@@ -12,8 +12,12 @@
         "run_if": "ALL_SUCCESS",
         "spark_python_task": {
           "python_file": "./job01.py",
+          "parameters": [
+            "{{job.parameters.job01_param}}"
+          ],
           "source": "GIT"
         },
+        "job_cluster_key": "sample-job-cluster",
         "timeout_seconds": 0,
         "email_notifications": {},
         "notification_settings": {
@@ -21,8 +25,7 @@
           "no_alert_for_canceled_runs": false,
           "alert_on_last_attempt": false
         },
-        "webhook_notifications": {},
-        "environment_key": "Default"
+        "webhook_notifications": {}
       },
       {
         "task_key": "job02",
@@ -34,8 +37,12 @@
         "run_if": "ALL_SUCCESS",
         "spark_python_task": {
           "python_file": "./job02.py",
+          "parameters": [
+            "{{job.parameters.job02_param}}"
+          ],
           "source": "GIT"
         },
+        "job_cluster_key": "sample-job-cluster",
         "timeout_seconds": 0,
         "email_notifications": {},
         "notification_settings": {
@@ -43,20 +50,36 @@
           "no_alert_for_canceled_runs": false,
           "alert_on_last_attempt": false
         },
-        "webhook_notifications": {},
-        "environment_key": "Default"
+        "webhook_notifications": {}
+      }
+    ],
+    "job_clusters": [
+      {
+        "job_cluster_key": "sample-job-cluster",
+        "new_cluster": {
+          "cluster_name": "",
+          "spark_version": "14.3.x-scala2.12",
+          "aws_attributes": {
+            "availability": "SPOT_WITH_FALLBACK",
+            "zone_id": "us-west-2a"
+          },
+          "node_type_id": "r6id.large",
+          "driver_node_type_id": "r6id.large",
+          "custom_tags": {
+            "ResourceClass": "SingleNode"
+          },
+          "spark_env_vars": {
+            "PYSPARK_PYTHON": "/databricks/python3/bin/python3"
+          },
+          "enable_elastic_disk": true,
+          "data_security_mode": "SINGLE_USER",
+          "runtime_engine": "PHOTON",
+          "num_workers": 0
+        }
       }
     ],
     "format": "MULTI_TASK",
     "queue": {
       "enabled": true
-    },
-    "environments": [
-      {
-        "environment_key": "Default",
-        "spec": {
-          "client": "1"
-        }
-      }
-    ]
-}
+    }
+  }
